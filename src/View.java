@@ -14,6 +14,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Timer;
+
 
 /**
  * View: Contains everything about graphics and images
@@ -24,7 +31,9 @@ import javax.swing.JPanel;
  * use proper images for direction
  * load images for all direction (an image should only be loaded once!!! why?)
  **/
-class View extends JPanel{
+
+
+class View extends JFrame{
 	private JFrame frame;
 	private final String[] orcMoveFiles = {"orc-images/orc_forward_north.png",
     		"orc-images/orc_forward_northeast.png",
@@ -44,16 +53,33 @@ class View extends JPanel{
     private Direction direction;
     private int x;
     private int y;
+    final int frameStartSize = 800;
+    final int drawDelay = 30; //msec
+    
+    DrawPanel drawPanel = new DrawPanel();
+    Action drawAction;
 	
     public View() {
-    	frame = new JFrame();
+	/*	frame = new JFrame();
     	frame.getContentPane().add(this);
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
-    	
-    	direction = Direction.SOUTHEAST;
+	*/
+	drawAction = new AbstractAction(){
+    		public void actionPerformed(ActionEvent e){
+    			drawPanel.repaint();
+    		}
+    	};
+	   	
+    	add(drawPanel);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setSize(frameStartSize, frameStartSize);
+    	setVisible(true);
+    	pack();
+	
+       	direction = Direction.SOUTHEAST;
     	x=0;
     	y=0;
     	
@@ -87,12 +113,20 @@ class View extends JPanel{
 		direction = d;
 		this.x = x;
 		this.y = y;
-		frame.repaint();
+		/*	frame.repaint();
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+			} */
+			/*EventQueue.invokeLater(new Runnable(){
+			public void run(){
+				View a = new View();
+				Timer t = new Timer(a.drawDelay, a.drawAction);
+				t.start();
+			}
+		});*/
+
     	
 		
 	}
@@ -102,6 +136,26 @@ class View extends JPanel{
 		//System.out.println(x);
     	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
 	}
+
+ @SuppressWarnings("serial")
+	private class DrawPanel extends JPanel {
+    	int picNum = 0;
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.gray);
+	    	picNum = (picNum + 1) % frameCount;
+	    g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
+		}
+
+		public Dimension getPreferredSize() {
+			return new Dimension(frameStartSize, frameStartSize);
+		}
+	}
+
+
+
+    
 
     private BufferedImage createImage(String file){
     	BufferedImage bufferedImage;
