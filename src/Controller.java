@@ -11,14 +11,15 @@ public class Controller {
 	private View view;
 	
 	public Controller(){
-		view = new View(model);
-		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
+		view = new View();
+		//model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 	}
 	
         //run the simulation
 	public void start(){
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
+				model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 				View a = new View(model);
 				Timer t = new Timer(a.drawDelay, a.drawAction);
 				//model.updateLocationAndDirection();

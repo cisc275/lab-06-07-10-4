@@ -46,8 +46,8 @@ class View extends JFrame{
 	BufferedImage[][] pics;
 	final int frameCount = 10; 
 	private int picNum; 
-	private final int frameWidth = 500;
-    private final int frameHeight = 300;
+	private final int frameWidth = 800;
+    private final int frameHeight = 800;
     private final int imgWidth = 165;
     private final int imgHeight = 165;
     private Direction direction;
@@ -60,6 +60,8 @@ class View extends JFrame{
     DrawPanel drawPanel = new DrawPanel();
     Action drawAction;
 	
+    public View() {}
+    
     public View(Model newModel) {
 	/*	frame = new JFrame();
     	frame.getContentPane().add(this);
@@ -81,6 +83,7 @@ class View extends JFrame{
 	   	
     	add(drawPanel);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setBackground(Color.gray);
     	setSize(frameStartSize, frameStartSize);
     	setVisible(true);
     	pack();
