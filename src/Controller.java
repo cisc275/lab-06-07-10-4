@@ -11,7 +11,7 @@ public class Controller {
 	private View view;
 	
 	public Controller(){
-		view = new View();
+		view = new View(model);
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 	}
 	
@@ -19,10 +19,10 @@ public class Controller {
 	public void start(){
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
-				View a = new View();
+				View a = new View(model);
 				Timer t = new Timer(a.drawDelay, a.drawAction);
-				model.updateLocationAndDirection();
-				view.update(model.getX(), model.getY(), model.getDirect());
+				//model.updateLocationAndDirection();
+				//view.update(model.getX(), model.getY(), model.getDirect());
 				t.start();
 			}
 		});

@@ -55,11 +55,12 @@ class View extends JFrame{
     private int y;
     final int frameStartSize = 800;
     final int drawDelay = 30; //msec
+    private Model model;
     
     DrawPanel drawPanel = new DrawPanel();
     Action drawAction;
 	
-    public View() {
+    public View(Model newModel) {
 	/*	frame = new JFrame();
     	frame.getContentPane().add(this);
     	frame.setBackground(Color.gray);
@@ -67,9 +68,14 @@ class View extends JFrame{
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
 	*/
+    model = newModel;	
+    
 	drawAction = new AbstractAction(){
     		public void actionPerformed(ActionEvent e){
     			drawPanel.repaint();
+    			model.updateLocationAndDirection();
+				update(model.getX(), model.getY(), model.getDirect());
+
     		}
     	};
 	   	
@@ -145,7 +151,7 @@ class View extends JFrame{
 			super.paintComponent(g);
 			g.setColor(Color.gray);
 	    	picNum = (picNum + 1) % frameCount;
-	    g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
+	    	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
 		}
 
 		public Dimension getPreferredSize() {
