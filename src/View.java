@@ -87,9 +87,11 @@ class View extends JFrame {
 		
 
 		stopButton = new JButton("Start/Stop");
-		stopButton.setBounds(100,100,140,40);
-		add(stopButton);
+		stopButton.setBounds(50,50,50,50);
+		drawPanel.add(stopButton); 
 		add(drawPanel);
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(Color.gray);
 		setSize(frameStartSize, frameStartSize);
