@@ -55,10 +55,12 @@ class View extends JPanel{
     private int y;
     final int drawDelay = 30; //msec
 
+    DrawPanel drawPanel = new DrawPanel();
     
     public View() {
 		frame = new JFrame();
-    	frame.getContentPane().add(this);
+    	//frame.getContentPane().add(this);
+		frame.add(drawPanel);
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
@@ -101,18 +103,12 @@ class View extends JPanel{
 		this.x = x;
 		this.y = y;
 		frame.repaint();
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
    	
 		
 	}
 	
 	public void paint(Graphics g) {
 		picNum = (picNum + 1) % frameCount;
-		//System.out.println(x);
     	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
 	}
 
