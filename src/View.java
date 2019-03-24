@@ -1,3 +1,4 @@
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,8 +15,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -34,19 +37,20 @@ import javax.swing.Timer;
 
 
 class View extends JPanel{
-	private JFrame frame;
-	private final String[] orcMoveFiles = {"orc-images/orc_forward_north.png",
-    		"orc-images/orc_forward_northeast.png",
-    		"orc-images/orc_forward_east.png",
-    		"orc-images/orc_forward_southeast.png",
-    		"orc-images/orc_forward_south.png",
-    		"orc-images/orc_forward_southwest.png",
-    		"orc-images/orc_forward_west.png",
-    		"orc-images/orc_forward_northwest.png"};
-	BufferedImage[][] pics;
-	final int frameCount = 10; 
-	private int picNum; 
-	private final int frameWidth = 500;
+    private JFrame frame;
+    private JButton stopButton;
+    private final String[] orcMoveFiles = {"orc-images/orc_forward_north.png",
+					   "orc-images/orc_forward_northeast.png",
+					   "orc-images/orc_forward_east.png",
+					   "orc-images/orc_forward_southeast.png",
+					   "orc-images/orc_forward_south.png",
+					   "orc-images/orc_forward_southwest.png",
+					   "orc-images/orc_forward_west.png",
+					   "orc-images/orc_forward_northwest.png"};
+    BufferedImage[][] pics;
+    final int frameCount = 10; 
+    private int picNum; 
+    private final int frameWidth = 500;
     private final int frameHeight = 300;
     private final int imgWidth = 165;
     private final int imgHeight = 165;
@@ -58,9 +62,9 @@ class View extends JPanel{
     DrawPanel drawPanel = new DrawPanel();
     
     public View() {
-		frame = new JFrame();
+	frame = new JFrame();
     	//frame.getContentPane().add(this);
-		frame.add(drawPanel);
+	frame.add(drawPanel);
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
@@ -76,73 +80,73 @@ class View extends JPanel{
     	
     	for(int j = 0; j < 8; j++)
     	{
-	    	BufferedImage img = createImage(orcMoveFiles[j]);
-	    	for(int i = 0; i < frameCount; i++)
-	    		pics[j][i] = img.getSubimage(imgWidth*i, 0, imgWidth, imgHeight);
+	    BufferedImage img = createImage(orcMoveFiles[j]);
+	    for(int i = 0; i < frameCount; i++)
+		pics[j][i] = img.getSubimage(imgWidth*i, 0, imgWidth, imgHeight);
     	}
     }
     
-	public int getWidth(){
-		return frameWidth;
-	}
-	
-	public int getHeight() {
-		return frameHeight;
-	}
-	
-	public int getImageWidth(){
-		return imgWidth;
-	}
-	
-	public int getImageHeight(){
-		return imgHeight;
-	}
-	
-	public void update(int x, int y, Direction d) {
-		direction = d;
-		this.x = x;
-		this.y = y;
-		frame.repaint();
+    public int getWidth(){
+	return frameWidth;
+    }
+
+    public int getHeight() {
+	return frameHeight;
+    }
+
+    public int getImageWidth(){
+	return imgWidth;
+    }
+
+    public int getImageHeight(){
+	return imgHeight;
+    }
+
+    public void update(int x, int y, Direction d) {
+	direction = d;
+	this.x = x;
+	this.y = y;
+	frame.repaint();
    	
 		
-	}
-	
-	public void paint(Graphics g) {
-		picNum = (picNum + 1) % frameCount;
+    }
+
+    public void paint(Graphics g) {
+	picNum = (picNum + 1) % frameCount;
     	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
+    }
+
+    @SuppressWarnings("serial")
+    private class DrawPanel extends JPanel {
+	int picNum = 0;
+
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+	    g.setColor(Color.gray);
+	    picNum = (picNum + 1) % frameCount;
+	    g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
 	}
 
- @SuppressWarnings("serial")
-	private class DrawPanel extends JPanel {
-    	int picNum = 0;
-
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			g.setColor(Color.gray);
-	    	picNum = (picNum + 1) % frameCount;
-	    	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
-		}
-
-		public Dimension getPreferredSize() {
-			return new Dimension(frameWidth, frameHeight);
-		}
+	public Dimension getPreferredSize() {
+	    return new Dimension(frameWidth, frameHeight);
 	}
+    }
 
 
 
-    
+
 
     private BufferedImage createImage(String file){
-    	BufferedImage bufferedImage;
-    	try {
-    		bufferedImage = ImageIO.read(new File(file));
-    		return bufferedImage;
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    	return null;
-    	
+	BufferedImage bufferedImage;
+	try {
+	    bufferedImage = ImageIO.read(new File(file));
+	    return bufferedImage;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	return null;
+
     }
-    
-	
+
+
 }
