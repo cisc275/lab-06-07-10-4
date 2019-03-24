@@ -33,7 +33,7 @@ import javax.swing.Timer;
  **/
 
 
-class View extends JFrame{
+class View extends JPanel{
 	private JFrame frame;
 	private final String[] orcMoveFiles = {"orc-images/orc_forward_north.png",
     		"orc-images/orc_forward_northeast.png",
@@ -46,48 +46,26 @@ class View extends JFrame{
 	BufferedImage[][] pics;
 	final int frameCount = 10; 
 	private int picNum; 
-	private final int frameWidth = 800;
-    private final int frameHeight = 800;
+	private final int frameWidth = 500;
+    private final int frameHeight = 300;
     private final int imgWidth = 165;
     private final int imgHeight = 165;
     private Direction direction;
     private int x;
     private int y;
-    final int frameStartSize = 800;
     final int drawDelay = 30; //msec
-    private Model model;
+
     
-    DrawPanel drawPanel = new DrawPanel();
-    Action drawAction;
-	
-    public View() {}
-    
-    public View(Model newModel) {
-	/*	frame = new JFrame();
+    public View() {
+		frame = new JFrame();
     	frame.getContentPane().add(this);
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
-	*/
-    model = newModel;	
-    
-	drawAction = new AbstractAction(){
-    		public void actionPerformed(ActionEvent e){
-    			drawPanel.repaint();
-    			model.updateLocationAndDirection();
-				update(model.getX(), model.getY(), model.getDirect());
-
-    		}
-    	};
-	   	
-    	add(drawPanel);
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setBackground(Color.gray);
-    	setSize(frameStartSize, frameStartSize);
-    	setVisible(true);
-    	pack();
+    	frame.pack();
 	
+
        	direction = Direction.SOUTHEAST;
     	x=0;
     	y=0;
@@ -122,21 +100,13 @@ class View extends JFrame{
 		direction = d;
 		this.x = x;
 		this.y = y;
-		/*	frame.repaint();
+		frame.repaint();
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			} */
-			/*EventQueue.invokeLater(new Runnable(){
-			public void run(){
-				View a = new View();
-				Timer t = new Timer(a.drawDelay, a.drawAction);
-				t.start();
-			}
-		});*/
-
-    	
+		}
+   	
 		
 	}
 	
@@ -158,7 +128,7 @@ class View extends JFrame{
 		}
 
 		public Dimension getPreferredSize() {
-			return new Dimension(frameStartSize, frameStartSize);
+			return new Dimension(frameWidth, frameHeight);
 		}
 	}
 
