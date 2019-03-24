@@ -60,59 +60,62 @@ class View extends JPanel{
     final int drawDelay = 30; //msec
 
     DrawPanel drawPanel = new DrawPanel();
-    
+     
     public View() {
-	frame = new JFrame();
+    	frame = new JFrame();
     	//frame.getContentPane().add(this);
-	frame.add(drawPanel);
+    	this.stopButton = new JButton("Start/Stop"); 
+    	drawPanel.add(stopButton);
+    	frame.add(drawPanel);
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
     	frame.pack();
-	
 
-       	direction = Direction.SOUTHEAST;
+	
+    	direction = Direction.SOUTHEAST;
     	x=0;
     	y=0;
-    	
+	
     	pics = new BufferedImage[8][10];
-    	
-    	for(int j = 0; j < 8; j++)
-    	{
-	    BufferedImage img = createImage(orcMoveFiles[j]);
-	    for(int i = 0; i < frameCount; i++)
-		pics[j][i] = img.getSubimage(imgWidth*i, 0, imgWidth, imgHeight);
-    	}
+
+    	for(int j = 0; j < 8; j++){
+    		BufferedImage img = createImage(orcMoveFiles[j]);
+    		for(int i = 0; i < frameCount; i++)
+    			pics[j][i] = img.getSubimage(imgWidth*i, 0, imgWidth, imgHeight);
+    		}
     }
     
     public int getWidth(){
-	return frameWidth;
+    	return frameWidth;
     }
 
     public int getHeight() {
-	return frameHeight;
+    	return frameHeight;
     }
 
     public int getImageWidth(){
-	return imgWidth;
+    	return imgWidth;
     }
 
     public int getImageHeight(){
-	return imgHeight;
+    	return imgHeight;
     }
-
+    public JButton getButton(){
+    	return this.stopButton; 
+    }
     public void update(int x, int y, Direction d) {
-	direction = d;
-	this.x = x;
-	this.y = y;
-	frame.repaint();
+    	direction = d;
+    	this.x = x;
+    	this.y = y;
+    	frame.repaint();
    	
 		
     }
 
     public void paint(Graphics g) {
-	picNum = (picNum + 1) % frameCount;
+    	picNum = (picNum + 1) % frameCount;
     	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
     }
 
