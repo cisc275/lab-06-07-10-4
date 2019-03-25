@@ -126,8 +126,10 @@ class View extends JPanel{
 		protected void paintComponent(Graphics g) {
 		    super.paintComponent(g);
 		    g.setColor(Color.gray);
+		    g.fillRect(0,0,frameWidth,frameHeight);
 		    picNum = (picNum + 1) % frameCount;
 		    g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
+		    
 		}
 	
 		public Dimension getPreferredSize() {
