@@ -1,6 +1,6 @@
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Timer;
@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * Do not modify this file without permission from your TA.
  **/
-public class Controller {
+public class Controller implements KeyListener{
 
 	private Model model;
 	private View view;
@@ -33,7 +33,7 @@ public class Controller {
     		public void actionPerformed(ActionEvent e){
     			if (stopFlag == 0) {
     				model.updateLocationAndDirection();
-    				view.update(model.getX(), model.getY(), model.getDirect());
+    				view.update(model.getX(), model.getY(), model.getDirect(),0);
     			}
 
     		}
@@ -51,5 +51,25 @@ public class Controller {
 			}
 		});
 
+	}
+
+	@Override
+	public void keyPressed(KeyEvent k) {
+		System.out.println("pressed");
+		if(k.getKeyCode()==KeyEvent.VK_J) {
+			view.update(model.getX(), model.getY(), model.getDirect(),1);			
+		}else if(k.getKeyCode()==KeyEvent.VK_D) {
+			view.update(model.getX(), model.getY(), model.getDirect(),2);
+		}
+		
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent k) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent k) {
 	}
 }
