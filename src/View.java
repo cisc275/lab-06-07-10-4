@@ -114,25 +114,25 @@ class View extends JPanel{
 		
     }
 
-    public void paint(Graphics g) {
+    /*public void paint(Graphics g) {
     	picNum = (picNum + 1) % frameCount;
     	g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
-    }
+    }*/
 
     @SuppressWarnings("serial")
     private class DrawPanel extends JPanel {
-	int picNum = 0;
-
-	protected void paintComponent(Graphics g) {
-	    super.paintComponent(g);
-	    g.setColor(Color.gray);
-	    picNum = (picNum + 1) % frameCount;
-	    g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
-	}
-
-	public Dimension getPreferredSize() {
-	    return new Dimension(frameWidth, frameHeight);
-	}
+		int picNum = 0;
+	
+		protected void paintComponent(Graphics g) {
+		    super.paintComponent(g);
+		    g.setColor(Color.gray);
+		    picNum = (picNum + 1) % frameCount;
+		    g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
+		}
+	
+		public Dimension getPreferredSize() {
+		    return new Dimension(frameWidth, frameHeight);
+		}
     }
 
 
