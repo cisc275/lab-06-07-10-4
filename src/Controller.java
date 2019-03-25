@@ -19,8 +19,9 @@ public class Controller implements KeyListener{
 	Action drawAction;
 	final int drawDelay = 30;
 	
+	@SuppressWarnings("serial")
 	public Controller(){
-		view = new View();
+		view = new View(this);
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 		button = view.getButton(); 
 		stopFlag = 0; 
@@ -40,7 +41,7 @@ public class Controller implements KeyListener{
     	};
 	}
 	
-        //run the simulation
+    //run the simulation
 	public void start(){
 		
 		EventQueue.invokeLater(new Runnable(){
@@ -54,11 +55,11 @@ public class Controller implements KeyListener{
 	}
 
 	@Override
-	public void keyPressed(KeyEvent k) {
-		System.out.println("pressed");
-		if(k.getKeyCode()==KeyEvent.VK_J) {
+	public void keyPressed(KeyEvent e) {
+		System.out.println("A key has been pressed.");
+		if(e.getKeyCode()==KeyEvent.VK_J) {
 			view.update(model.getX(), model.getY(), model.getDirect(),1);			
-		}else if(k.getKeyCode()==KeyEvent.VK_D) {
+		}else if(e.getKeyCode()==KeyEvent.VK_D) {
 			view.update(model.getX(), model.getY(), model.getDirect(),2);
 		}
 		

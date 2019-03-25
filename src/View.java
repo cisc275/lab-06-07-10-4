@@ -72,13 +72,14 @@ class View extends JPanel{
 
 	DrawPanel drawPanel = new DrawPanel();
 
-	public View() {
+	public View(Controller c) {
 		frame = new JFrame();
 		frame.setFocusable(true);
 		//frame.getContentPane().add(this);
 		this.stopButton = new JButton("Start/Stop"); 
 		drawPanel.add(stopButton);
 		frame.add(drawPanel);
+		frame.addKeyListener(c);
 		frame.setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(frameWidth, frameHeight);
