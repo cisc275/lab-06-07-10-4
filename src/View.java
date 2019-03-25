@@ -156,12 +156,14 @@ class View extends JPanel{
 				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
 				if(picNum==jumpFrameCount-1) {
 					state = 0;
+					picNum = jumpFrameCount;
 				}
 			}else if(state==2) {
 				picNum = (picNum + 1) % jumpFrameCount;
 				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
 				if(picNum==jumpFrameCount-1) {
 					state = 0;
+					picNum = jumpFrameCount;
 				}
 			}
 			
