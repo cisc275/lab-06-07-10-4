@@ -46,7 +46,7 @@ class View extends JPanel{
 			"orc-images/orc_forward_south.png",
 			"orc-images/orc_forward_southwest.png",
 			"orc-images/orc_forward_west.png",
-	"orc-images/orc_forward_northwest.png"};
+			"orc-images/orc_forward_northwest.png"};
 	private final String[] orcJumpFiles = {"orc-images/orc_jump_north.png",
 			"orc-images/orc_jump_northeast.png",
 			"orc-images/orc_jump_east.png",
@@ -54,21 +54,30 @@ class View extends JPanel{
 			"orc-images/orc_jump_south.png",
 			"orc-images/orc_jump_southwest.png",
 			"orc-images/orc_jump_west.png",
-	"orc-images/orc_jump_northwest.png"};
+			"orc-images/orc_jump_northwest.png"};
+	private final String[] orcDieFiles = {"orc-images/orc_die_north.png",
+			"orc-images/orc_die_east.png",
+			"orc-images/orc_die_south.png",
+			"orc-images/orc_die_west.png"};
 	BufferedImage[][] pics;
 	BufferedImage[][] jumpPics;
+	BufferedImage[][] diePics;
 	final int frameCount = 10;
-	final int jumpFrameCount = 8;  
+	final int dirCount = 8;
+	final int jumpFrameCount = 8;
+	final int dieFrameCount = 7;
+	final int dieDirCount = 4;
 	private final int frameWidth = 500;
 	private final int frameHeight = 300;
 	private final int imgWidth = 165;
 	private final int imgHeight = 165;
+	private final int dieImgWidth = 232;
+	private final int dieImgHeight = 232;
 	private Direction direction;
 	private int x;
 	private int y;
 	private int state = 0;
 	private boolean firstAnimationFrame = true;
-	final int drawDelay = 30; //msec
 
 	DrawPanel drawPanel = new DrawPanel();
 
@@ -91,20 +100,28 @@ class View extends JPanel{
 		x=0;
 		y=0;
 
-		pics = new BufferedImage[8][10];
+		pics = new BufferedImage[dirCount][frameCount];
 
-		for(int j = 0; j < 8; j++){
+		for(int j = 0; j < dirCount; j++){
 			BufferedImage img = createImage(orcMoveFiles[j]);
 			for(int i = 0; i < frameCount; i++)
 				pics[j][i] = img.getSubimage(imgWidth*i, 0, imgWidth, imgHeight);
 		}
 		
-		jumpPics = new BufferedImage[8][8];
+		jumpPics = new BufferedImage[dirCount][jumpFrameCount];
 		
-		for(int j = 0; j < 8; j++){
+		for(int j = 0; j < dirCount; j++){
 			BufferedImage img = createImage(orcJumpFiles[j]);
 			for(int i = 0; i < jumpFrameCount; i++)
 				jumpPics[j][i] = img.getSubimage(imgWidth*i, 0, imgWidth, imgHeight);
+		}
+		
+		diePics = new BufferedImage[dieDirCount][dieFrameCount];
+		
+		for(int j = 0; j < dieDirCount; j++){
+			BufferedImage img = createImage(orcDieFiles[j]);
+			for(int i = 0; i < dieFrameCount; i++)
+				diePics[j][i] = img.getSubimage(dieImgWidth*i, 0, dieImgWidth, dieImgHeight);
 		}
 	}
 
@@ -140,11 +157,6 @@ class View extends JPanel{
 
 	}
 
-	/*public void paint(Graphics g) {
-		picNum = (picNum + 1) % frameCount;
-		g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
-	}*/
-
 	@SuppressWarnings("serial")
 	private class DrawPanel extends JPanel {
 		int picNum = 0;
@@ -166,7 +178,6 @@ class View extends JPanel{
 				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
 				if(picNum==jumpFrameCount-1) {
 					state = 0;
-					picNum = jumpFrameCount;
 					firstAnimationFrame = true;
 				}
 			} else if(state==2) {
@@ -175,11 +186,10 @@ class View extends JPanel{
 					picNum = -1;
 					firstAnimationFrame = false;
 				}
-				picNum = (picNum + 1) % jumpFrameCount;
-				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
-				if(picNum==jumpFrameCount-1) {
+				picNum = (picNum + 1) % dieFrameCount;
+				g.drawImage(diePics[dieDirConverter(direction.ordinal())][picNum], x, y, Color.gray, this);
+				if(picNum==dieFrameCount-1) {
 					state = 0;
-					picNum = jumpFrameCount;
 					firstAnimationFrame = true;
 				}
 			}
@@ -189,10 +199,6 @@ class View extends JPanel{
 			return new Dimension(frameWidth, frameHeight);
 		}
 	}
-
-
-
-
 
 	private BufferedImage createImage(String file){
 		BufferedImage bufferedImage;
@@ -206,5 +212,7 @@ class View extends JPanel{
 
 	}
 
-
+	private int dieDirConverter(int oldDir) {
+		return oldDir / 2;
+	}
 }
