@@ -67,6 +67,7 @@ class View extends JPanel{
 	private int x;
 	private int y;
 	private int state = 0;
+	private boolean firstAnimationFrame = true;
 	final int drawDelay = 30; //msec
 
 	DrawPanel drawPanel = new DrawPanel();
@@ -131,6 +132,8 @@ class View extends JPanel{
 		this.y = y;
 		if (s != -1) {
 			state = s;
+		} else if (s == state) {
+			firstAnimationFrame = true;
 		}
 		frame.repaint();
 
@@ -153,25 +156,33 @@ class View extends JPanel{
 				System.out.println("Normal");
 				picNum = (picNum + 1) % frameCount;
 				g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
-			}else if(state==1) {
+			} else if(state==1) {
 				System.out.println("Jump");
-				picNum = (picNum + 1) % jumpFrameCount;
-				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
-				if(picNum==jumpFrameCount-1) {
-					state = 0;
-					picNum = jumpFrameCount;
+				if (firstAnimationFrame) {
+					picNum = -1;
+					firstAnimationFrame = false;
 				}
-			}else if(state==2) {
-				System.out.println("Die");
 				picNum = (picNum + 1) % jumpFrameCount;
 				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
 				if(picNum==jumpFrameCount-1) {
 					state = 0;
 					picNum = jumpFrameCount;
+					firstAnimationFrame = true;
+				}
+			} else if(state==2) {
+				System.out.println("Die");
+				if (firstAnimationFrame) { 
+					picNum = -1;
+					firstAnimationFrame = false;
+				}
+				picNum = (picNum + 1) % jumpFrameCount;
+				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
+				if(picNum==jumpFrameCount-1) {
+					state = 0;
+					picNum = jumpFrameCount;
+					firstAnimationFrame = true;
 				}
 			}
-			
-			
 		}
 
 		public Dimension getPreferredSize() {
