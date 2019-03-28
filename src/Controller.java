@@ -1,6 +1,6 @@
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Timer;
@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * Do not modify this file without permission from your TA.
  **/
-public class Controller {
+public class Controller implements KeyListener{
 
 	private Model model;
 	private View view;
@@ -18,12 +18,15 @@ public class Controller {
 	private int stopFlag; 
 	Action drawAction;
 	final int drawDelay = 30;
+	private int state;
 	
+	@SuppressWarnings("serial")
 	public Controller(){
-		view = new View();
+		view = new View(this);
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 		button = view.getButton(); 
 		stopFlag = 0; 
+		state = 0;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopFlag = (stopFlag + 1) % 2; 
@@ -33,14 +36,14 @@ public class Controller {
     		public void actionPerformed(ActionEvent e){
     			if (stopFlag == 0) {
     				model.updateLocationAndDirection();
-    				view.update(model.getX(), model.getY(), model.getDirect());
+    				view.update(model.getX(), model.getY(), model.getDirect(),-1);
     			}
 
     		}
     	};
 	}
 	
-        //run the simulation
+    //run the simulation
 	public void start(){
 		
 		EventQueue.invokeLater(new Runnable(){
@@ -51,5 +54,27 @@ public class Controller {
 			}
 		});
 
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("A key has been pressed.");
+		if(e.getKeyCode()==KeyEvent.VK_J) {
+			state = 1;
+			view.update(model.getX(), model.getY(), model.getDirect(),state);			
+		}else if(e.getKeyCode()==KeyEvent.VK_D) {
+			state = 2;
+			view.update(model.getX(), model.getY(), model.getDirect(),state);
+		}
+		
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent k) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent k) {
 	}
 }
