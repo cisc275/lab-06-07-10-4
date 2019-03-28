@@ -129,6 +129,7 @@ class View extends JPanel{
 		return frameWidth;
 	}
 
+
 	public int getHeight() {
 		return frameHeight;
 	}
