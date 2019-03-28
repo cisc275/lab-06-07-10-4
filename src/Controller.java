@@ -18,6 +18,7 @@ public class Controller implements KeyListener{
 	private int stopFlag; 
 	Action drawAction;
 	final int drawDelay = 30;
+	private int state;
 	
 	@SuppressWarnings("serial")
 	public Controller(){
@@ -25,6 +26,7 @@ public class Controller implements KeyListener{
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 		button = view.getButton(); 
 		stopFlag = 0; 
+		state = 0;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopFlag = (stopFlag + 1) % 2; 
@@ -34,7 +36,7 @@ public class Controller implements KeyListener{
     		public void actionPerformed(ActionEvent e){
     			if (stopFlag == 0) {
     				model.updateLocationAndDirection();
-    				view.update(model.getX(), model.getY(), model.getDirect(),0);
+    				view.update(model.getX(), model.getY(), model.getDirect(),-1);
     			}
 
     		}
@@ -58,9 +60,11 @@ public class Controller implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		System.out.println("A key has been pressed.");
 		if(e.getKeyCode()==KeyEvent.VK_J) {
-			view.update(model.getX(), model.getY(), model.getDirect(),1);			
+			state = 1;
+			view.update(model.getX(), model.getY(), model.getDirect(),state);			
 		}else if(e.getKeyCode()==KeyEvent.VK_D) {
-			view.update(model.getX(), model.getY(), model.getDirect(),2);
+			state = 2;
+			view.update(model.getX(), model.getY(), model.getDirect(),state);
 		}
 		
 		

@@ -58,8 +58,7 @@ class View extends JPanel{
 	BufferedImage[][] pics;
 	BufferedImage[][] jumpPics;
 	final int frameCount = 10;
-	final int jumpFrameCount = 8; 
-	private int picNum; 
+	final int jumpFrameCount = 8;  
 	private final int frameWidth = 500;
 	private final int frameHeight = 300;
 	private final int imgWidth = 165;
@@ -67,7 +66,7 @@ class View extends JPanel{
 	private Direction direction;
 	private int x;
 	private int y;
-	private int state;
+	private int state = 0;
 	final int drawDelay = 30; //msec
 
 	DrawPanel drawPanel = new DrawPanel();
@@ -130,7 +129,9 @@ class View extends JPanel{
 		direction = d;
 		this.x = x;
 		this.y = y;
-		state = s;
+		if (s != -1) {
+			state = s;
+		}
 		frame.repaint();
 
 
@@ -149,9 +150,11 @@ class View extends JPanel{
 			super.paintComponent(g);
 			g.setColor(Color.gray);
 			if(state==0) {
+				System.out.println("Normal");
 				picNum = (picNum + 1) % frameCount;
 				g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
 			}else if(state==1) {
+				System.out.println("Jump");
 				picNum = (picNum + 1) % jumpFrameCount;
 				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
 				if(picNum==jumpFrameCount-1) {
@@ -159,6 +162,7 @@ class View extends JPanel{
 					picNum = jumpFrameCount;
 				}
 			}else if(state==2) {
+				System.out.println("Die");
 				picNum = (picNum + 1) % jumpFrameCount;
 				g.drawImage(jumpPics[direction.ordinal()][picNum], x, y, Color.gray, this);
 				if(picNum==jumpFrameCount-1) {
