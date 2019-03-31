@@ -166,11 +166,11 @@ class View extends JPanel{
 			super.paintComponent(g);
 			g.setColor(Color.gray);
 			if(state==0) {
-				System.out.println("Normal");
+				//System.out.println("Normal");
 				picNum = (picNum + 1) % frameCount;
 				g.drawImage(pics[direction.ordinal()][picNum], x, y, Color.gray, this);
 			} else if(state==1) {
-				System.out.println("Jump");
+				//System.out.println("Jump");
 				if (firstAnimationFrame) {
 					picNum = -1;
 					firstAnimationFrame = false;
@@ -182,7 +182,7 @@ class View extends JPanel{
 					firstAnimationFrame = true;
 				}
 			} else if(state==2) {
-				System.out.println("Die");
+				//System.out.println("Die");
 				if (firstAnimationFrame) { 
 					picNum = -1;
 					firstAnimationFrame = false;
